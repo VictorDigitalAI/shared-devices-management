@@ -7,11 +7,20 @@ import Home from './pages/Home/Home';
 import Login from './pages/Login/Login';
 import Page404 from './pages/Page404/Page404';
 import RequireAuth from './components/RequireAuth';
+import {Provider} from 'react-redux';
+import {store} from './store/store';
+import SharedDevices from './pages/SharedDevices/SharedDevices';
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <RequireAuth><Home/></RequireAuth>,
+        children: [
+            {
+                path: "/shared-devices",
+                element: <SharedDevices/>
+            }
+        ]
     },
     {
         path: "/login",
@@ -29,7 +38,9 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
         <DotThemeProvider>
-            <RouterProvider router={router}/>
+            <Provider store={store}>
+                <RouterProvider router={router}/>
+            </Provider>
         </DotThemeProvider>
     </React.StrictMode>
 );
