@@ -1,14 +1,27 @@
 import './SharedDevices.scss';
-import React, {ChangeEvent, MouseEvent, useState} from 'react';
+import React, {ChangeEvent, MouseEvent, useEffect, useState} from 'react';
 import {DotActionToolbar, DotIcon, DotInputText, DotTable, DotTypography} from '@digital-ai/dot-components';
-import {useSelector} from 'react-redux';
+import Loader from '../../components/Loader/Loader';
+import axios from 'axios';
+import {BASE_V1_URL, TOKEN_KEY} from '../../constants/constants';
 
 const SharedDevices = () => {
 
-    const sharedDevices = useSelector((state: any) => state.sharedDevices.sharedDevices);
-
-    const [data, setData] = useState(sharedDevices.map((d: any) => ({id: d.deviceId, rowData: d})));
+    const [sharedDevices, setSharedDevices] = useState([]);
+    const [tableData, setTableData] = useState([]);
     const [searchText, setSearchText] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        axios.get(BASE_V1_URL + "/devices", {
+            headers: {
+                'Authorization': `Basic ${localStorage.getItem(TOKEN_KEY)}`
+            }
+        }).then(response => {
+            setTableData(response.data.map((d: any) => ({id: d.deviceId, rowData: d})));
+            setIsLoading(false);
+        }).catch(err => console.error(err));
+    }, [])
 
     const onSearchChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setSearchText(evt.target.value);
@@ -22,7 +35,7 @@ const SharedDevices = () => {
     };
 
     const getFilteredData = () => {
-        return data.filter(isSearchHit);
+        return sharedDevices.filter(isSearchHit);
     };
 
     const onRowClick = (evt: MouseEvent, id: string) => {
@@ -54,21 +67,44 @@ const SharedDevices = () => {
             label: "Status"
         },
         {
+            id: "deviceId",
+            label: "ID",
+            sortable: false
+        },
+        {
             id: "name",
             label: "Name"
         },
         {
             id: "os",
-            label: "OS"
+            label: "OS",
+            sortable: false
         },
         {
             id: "version",
             label: "Version"
+        },
+        {
+            id: "deviceHost",
+            label: "Device Host"
+        },
+        {
+            id: "placementConstraints",
+            label: "Placement Constraints"
+        },
+        {
+            id: "errorCode",
+            label: "Error Code",
+            sortable: false
         }
     ];
 
+    if (isLoading) {
+        return <Loader/>;
+    }
+
     return (
-        <DotTable data={searchText && searchText.length > 0 ? getFilteredData() : data}
+        <DotTable data={tableData}
                   onRowClick={onRowClick}
                   order="asc"
                   orderBy="status"

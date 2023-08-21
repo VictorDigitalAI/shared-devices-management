@@ -1,11 +1,12 @@
 import "./Login.scss";
 import React, {ChangeEvent, useState} from 'react';
 import {DotButton, DotForm, DotInputText} from '@digital-ai/dot-components';
-import {TOKEN_KEY} from '../../constants/constants';
+import {AUTH_URL, MANGER_INFO_KEY, TOKEN_KEY} from '../../constants/constants';
 import {Navigate, useNavigate} from 'react-router-dom';
-import {TextFormInput} from '../../models/form-models';
+import {TextFormInput} from '../../models/form.models';
 import {useDispatch} from 'react-redux';
-import {addToken} from '../../store/authentication';
+import {addShareManagerInfo, addToken} from '../../store/authentication';
+import axios from 'axios';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -41,21 +42,23 @@ const Login = () => {
     const loginSubmitHandler = (credentials: any) => {
         credentials.preventDefault();
 
-        // const config = {
-        //     headers: {
-        //         Accept: 'application/json',
-        //         'Content-Type': 'application/json',
-        //         'Access-Control-Allow-Origin': '*'
-        //     },
-        //     auth: {username: usernameField.value, password: passwordField.value}
-        // };
-
         if (usernameField.value && passwordField.value) {
-            localStorage.setItem(TOKEN_KEY, btoa(usernameField.value + ":" + passwordField.value));
-            navigate('/');
-            // axios.get(BASE_V1_URL + "/devices", config).then(response => console.log(response)).catch(err => console.error(err));
-            // axios.get(AUTH_URL + '/manage/info', config).then(response => console.log(response)).catch(err => console.error(err));
+            setIsLoading(true);
+            axios.get(AUTH_URL + '/manage/info', {
+                auth: {username: usernameField.value, password: passwordField.value}
+            }).then(response => {
+                if (response.data?.build) {
+                    dispatch(addShareManagerInfo(response.data?.build));
+                    localStorage.setItem(MANGER_INFO_KEY, JSON.stringify(response.data?.build));
+                }
+                const token = btoa(usernameField.value + ":" + passwordField.value);
+                localStorage.setItem(TOKEN_KEY, token);
+                dispatch(addToken(token));
+                setIsLoading(false);
+                navigate('/');
+            }).catch(() => setIsLoading(false));
         }
+
     }
 
     return (
@@ -67,19 +70,22 @@ const Login = () => {
                 <h2>Login</h2>
                 <DotForm onSubmit={loginSubmitHandler}>
                     <DotInputText id="username"
+                                  disabled={isLoading}
                                   name="username"
                                   onChange={usernameInputHandler}
                                   required={true}
                                   label="Username"
                                   error={usernameField.error}/>
                     <DotInputText id="password"
+                                  disabled={isLoading}
                                   name="password"
                                   type="password"
                                   onChange={passwordInputHandler}
                                   required={true}
                                   label="Password"
                                   error={passwordField.error}/>
-                    <DotButton isSubmit={true} disabled={!usernameField.value || !passwordField.value}>Login</DotButton>
+                    <DotButton isSubmit={true}
+                               disabled={!usernameField.value || !passwordField.value || isLoading}>{isLoading ? 'Wait...' : 'Login'}</DotButton>
                 </DotForm>
             </div>
         </div>
