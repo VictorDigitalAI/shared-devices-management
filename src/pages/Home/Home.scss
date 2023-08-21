@@ -3,6 +3,36 @@
   height: 100%;
 }
 
+.drawer-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.navigation-button {
+  height: 45px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding-left: 10px;
+
+  &:hover {
+    background-color: silver !important;
+    color: white;
+  }
+}
+
+.active > .navigation-button {
+  background-color: #dcdcdc;
+}
+
+.navigation-close {
+  height: 50px;
+  border-bottom: 1px solid silver;
+  margin-bottom: 10px;
+}
+
 header {
   height: 50px;
   background-color: #e7e7e7;

@@ -1,5 +1,6 @@
 export enum ROUTES {
-    HOME = "/",
+    DASHBOARD = "/",
     LOGIN = "/login",
-    DASHBOARD = "/dashboard"
+    SHARED_DEVICES = "/shared-devices",
+    SHARED_DEVICE_GROUPS = "/shared-device-groups",
 }
