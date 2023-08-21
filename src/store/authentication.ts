@@ -7,7 +7,7 @@ const authentication = createSlice({
     name: AUTH_REDUCER,
     initialState: {
         token: '',
-        shareManagerInfo: JSON.parse(localStorage.getItem(MANGER_INFO_KEY) || '') || {}
+        shareManagerInfo: JSON.parse(localStorage.getItem(MANGER_INFO_KEY) || '{}')
     },
     reducers: {
         addToken: (state, action) => {
@@ -16,7 +16,7 @@ const authentication = createSlice({
         addShareManagerInfo: (state, action) => {
             state.shareManagerInfo = action.payload;
         },
-        removeToken: (state, action) => {
+        removeToken: (state) => {
             state.token = '';
             state.shareManagerInfo = {};
         }
