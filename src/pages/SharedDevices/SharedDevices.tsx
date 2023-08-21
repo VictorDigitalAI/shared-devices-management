@@ -20,7 +20,7 @@ const SharedDevices = () => {
         }).then(response => {
             setTableData(response.data.map((d: any) => ({id: d.deviceId, rowData: d})));
             setIsLoading(false);
-        }).catch(err => console.error(err));
+        }).catch(() => setIsLoading(false));
     }, []);
 
     const onSearchChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

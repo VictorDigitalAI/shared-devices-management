@@ -7,6 +7,7 @@ import Login from './pages/Login/Login';
 import Page404 from './pages/Page404/Page404';
 import {ROUTES} from './constants/routes';
 import SharedDeviceGroups from './pages/SharedDeviceGroups/SharedDeviceGroups';
+import ShareManagerNotAvailable from './pages/ShareManagerNotAvailable/ShareManagerNotAvailable';
 
 export const router = createBrowserRouter([
     {
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
     {
         path: ROUTES.LOGIN,
         element: <Login/>
+    },
+    {
+        path: ROUTES.MANGER_NOT_AVAILABLE,
+        element: <ShareManagerNotAvailable/>
     },
     {
         path: "*",

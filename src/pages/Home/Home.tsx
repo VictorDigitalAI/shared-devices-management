@@ -46,6 +46,7 @@ const Home = () => {
                 </div>
                 {navigationLinks.map(link => {
                     return <NavLink to={link.path}
+                                    key={link.path}
                                     onClick={() => setIsDrawerOpened(false)}
                                     className={({isActive}) => isActive ? "active" : ""}>
                         <div className="navigation-button">{link.title}</div>
