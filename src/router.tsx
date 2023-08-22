@@ -1,4 +1,4 @@
-import {createBrowserRouter} from 'react-router-dom';
+import {createBrowserRouter, Navigate} from 'react-router-dom';
 import RequireAuth from './components/RequireAuth';
 import Home from './pages/Home/Home';
 import SharedDevices from './pages/SharedDevices/SharedDevices';
@@ -37,7 +37,11 @@ export const router = createBrowserRouter([
         element: <RequireAuth><ShareManagerNotAvailable/></RequireAuth>
     },
     {
-        path: "*",
+        path: ROUTES.PAGE_404,
         element: <Page404/>
+    },
+    {
+        path: "*",
+        element: <Navigate to={ROUTES.PAGE_404}/>
     }
 ]);
