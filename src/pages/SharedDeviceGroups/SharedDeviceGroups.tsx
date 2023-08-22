@@ -66,7 +66,7 @@ const SharedDeviceGroups = () => {
     const columns = [
         {
             id: "id",
-            label: "Device ID"
+            label: "Group ID"
         },
         {
             id: "name",

@@ -34,7 +34,17 @@ const Dashboard = () => {
     }
 
     const convertSharedDevicesDataToPieChartData = (sharedDevices: SharedDeviceDto[]) => {
-        const chartData: any[][] = [];
+        const chartData: any[][] = [
+            ["STATUS", "DEVICES"],
+            ["AVAILABLE", 0],
+            ["OFFLINE", 0],
+            ["MAINTENANCE", 0],
+            ["CONFIGURED", 0],
+            ["IN_USE", 0],
+            ["DIRTY", 0],
+            ["IN_RESET", 0],
+            ["UNUSABLE", 0]
+        ];
 
         sharedDevices.forEach(device => {
             const index = chartData.findIndex(chart => chart[0] === device.status);
@@ -44,16 +54,13 @@ const Dashboard = () => {
                 chartData.push([device.status, 1]);
             }
         })
-        console.log(chartData);
-
         // @ts-ignore
         setPieChartData(chartData);
     }
 
     const options = {
-        title: "My Daily Activities",
-        pieHole: 0.4,
-        is3D: false,
+        title: "Shared devices by status",
+        is3D: true
     };
 
     if (isLoading) {
@@ -61,13 +68,35 @@ const Dashboard = () => {
     }
 
     return (
-        <div>
-            <Chart chartType="PieChart"
-                   width="100%"
-                   height="400px"
-                   data={pieChartData}
-                   options={options}
-            />
+        <div className="dashboard-container">
+            <div className="dashboard-devices-chart">
+                <Chart chartType="PieChart"
+                       width="100%"
+                       height="400px"
+                       data={pieChartData}
+                       options={options}/>
+            </div>
+            <div className="dashboard-devices-chart">
+                <Chart chartType="PieChart"
+                       width="100%"
+                       height="400px"
+                       data={pieChartData}
+                       options={options}/>
+            </div>
+            <div className="dashboard-devices-chart">
+                <Chart chartType="PieChart"
+                       width="100%"
+                       height="400px"
+                       data={pieChartData}
+                       options={options}/>
+            </div>
+            <div className="dashboard-devices-chart">
+                <Chart chartType="PieChart"
+                       width="100%"
+                       height="400px"
+                       data={pieChartData}
+                       options={options}/>
+            </div>
         </div>
     );
 };
