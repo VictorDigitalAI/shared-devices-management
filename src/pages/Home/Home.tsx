@@ -37,7 +37,6 @@ const Home = () => {
 
     return (
         <>
-
             <DotDrawer onClose={() => setIsDrawerOpened(false)}
                        anchor="left"
                        open={isDrawerOpened}>

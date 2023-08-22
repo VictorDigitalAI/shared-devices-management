@@ -1,0 +1,12 @@
+.table-toolbar {
+  display: flex;
+
+  .table-title {
+    width: 180px;
+  }
+
+  .toolbar-filters {
+    flex: 1;
+    display: flex;
+  }
+}

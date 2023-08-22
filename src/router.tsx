@@ -34,7 +34,7 @@ export const router = createBrowserRouter([
     },
     {
         path: ROUTES.MANGER_NOT_AVAILABLE,
-        element: <ShareManagerNotAvailable/>
+        element: <RequireAuth><ShareManagerNotAvailable/></RequireAuth>
     },
     {
         path: "*",

@@ -6,17 +6,18 @@ import {RouterProvider} from 'react-router-dom';
 import {Provider} from 'react-redux';
 import {store} from './store/store';
 import {router} from './router';
+// @ts-ignore
+import {NotificationContainer} from 'react-notifications';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
 
 root.render(
-    <React.StrictMode>
-        <DotThemeProvider>
-            <Provider store={store}>
-                <RouterProvider router={router}/>
-            </Provider>
-        </DotThemeProvider>
-    </React.StrictMode>
+    <DotThemeProvider>
+        <Provider store={store}>
+            <NotificationContainer/>
+            <RouterProvider router={router}/>
+        </Provider>
+    </DotThemeProvider>
 );

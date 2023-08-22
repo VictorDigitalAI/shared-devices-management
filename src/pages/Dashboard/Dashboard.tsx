@@ -1,5 +1,4 @@
 import "./Dashboard.scss";
-
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {BASE_V1_URL, TOKEN_KEY} from '../../constants/constants';
@@ -8,6 +7,8 @@ import {Chart} from 'react-google-charts';
 import Loader from '../../components/Loader/Loader';
 import {useNavigate} from 'react-router-dom';
 import {ROUTES} from '../../constants/routes';
+// @ts-ignore
+import {NotificationManager} from 'react-notifications';
 
 const Dashboard = () => {
 
@@ -27,7 +28,8 @@ const Dashboard = () => {
         }).then(response => {
             convertSharedDevicesDataToPieChartData(response?.data);
             setIsLoading(false);
-        }).catch(() => {
+        }).catch(err => {
+            NotificationManager.error(err.message);
             setIsLoading(false);
             navigate(ROUTES.MANGER_NOT_AVAILABLE);
         });

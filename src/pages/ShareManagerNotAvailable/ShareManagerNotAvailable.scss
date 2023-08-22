@@ -1,11 +1,17 @@
 .manager-not-available {
   width: 100%;
   height: 100%;
-  color: red;
+  color: whitesmoke;
   font-size: 48px;
   display: flex;
   flex-direction: column;
   gap: 20px;
   justify-content: center;
   align-items: center;
+  background-color: black;
+
+  h1 {
+    font-style: italic;
+    margin: 5px;
+  }
 }

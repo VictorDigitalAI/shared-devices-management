@@ -11,8 +11,9 @@ const ShareManagerNotAvailable = () => {
 
     return (
         <div className="manager-not-available">
+            <h1>Oops!!</h1>
             <div>Share manager not available!</div>
-            <DotButton onClick={() => navigate(ROUTES.DASHBOARD)}>GO HOME</DotButton>
+            <DotButton type="outlined" onClick={() => navigate(ROUTES.DASHBOARD)}>Go to Dashboard</DotButton>
         </div>
     );
 };

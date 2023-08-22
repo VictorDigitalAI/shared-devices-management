@@ -4,9 +4,12 @@ import {DotActionToolbar, DotIcon, DotInputText, DotTable, DotTypography} from '
 import Loader from '../../components/Loader/Loader';
 import axios from 'axios';
 import {BASE_V1_URL, TOKEN_KEY} from '../../constants/constants';
+import {Navigate, useNavigate} from 'react-router-dom';
+import {ROUTES} from '../../constants/routes';
 
 const SharedDeviceGroups = () => {
 
+    const navigate = useNavigate();
     const [SharedDeviceGroups, setSharedDevices] = useState([]);
     const [tableData, setTableData] = useState([]);
     const [searchText, setSearchText] = useState('');
@@ -23,7 +26,10 @@ const SharedDeviceGroups = () => {
                 return ({id: d.id, rowData: d});
             }));
             setIsLoading(false);
-        }).catch(err => console.error(err));
+        }).catch(err => {
+            setIsLoading(false);
+            navigate(ROUTES.MANGER_NOT_AVAILABLE);
+        });
     }, []);
 
     const onSearchChange = (evt: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

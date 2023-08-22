@@ -7,6 +7,8 @@ import {TextFormInput} from '../../models/form.models';
 import {useDispatch} from 'react-redux';
 import {addShareManagerInfo, addToken} from '../../store/authentication';
 import axios from 'axios';
+// @ts-ignore
+import {NotificationManager} from 'react-notifications';
 
 const Login = () => {
     const navigate = useNavigate();
@@ -56,7 +58,10 @@ const Login = () => {
                 dispatch(addToken(token));
                 setIsLoading(false);
                 navigate('/');
-            }).catch(() => setIsLoading(false));
+            }).catch(() => {
+                setIsLoading(false);
+                NotificationManager.error('Login', 'Wrong credentials or other issue', 5000);
+            });
         }
 
     }
