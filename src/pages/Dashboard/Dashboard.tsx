@@ -4,6 +4,7 @@ import axios from 'axios';
 import {BASE_V1_URL} from '../../constants/constants';
 import {SharedDeviceDto} from '../../models/shared.models';
 import {Chart} from 'react-google-charts';
+import {Card, CardHeader} from "@mui/material";
 import Loader from '../../components/Loader/Loader';
 import {useNavigate} from 'react-router-dom';
 // @ts-ignore
@@ -17,9 +18,12 @@ const Dashboard = () => {
     const [shredDeviceGroupsChartData, setShredDeviceGroupsChartData] = useState<unknown[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const navigate = useNavigate();
+    const [isDocker, setIsDocker] = useState(false);
+    const [dockerHost, setDockerHost] = useState("");
 
     useEffect(() => {
         fetchDashboardData();
+        getDockerSwarmStatus();
     }, []);
 
     const fetchDashboardData = () => {
@@ -50,6 +54,16 @@ const Dashboard = () => {
         const chartData: any[][] = [["GROUP", "DEVICES"]];
         groups.forEach(g => chartData.push([g.name, g.devices.length]));
         setShredDeviceGroupsChartData(chartData);
+    }
+
+    const getDockerSwarmStatus = () => {
+        axios.get(BASE_V1_URL + "/docker")
+            .then(response => {
+                setIsDocker(response.data[0]?.isConnected)
+                setDockerHost(response.data[0]?.host)
+            }).catch(err => {
+            NotificationManager.error(err.message);
+        });
     }
 
     const convertSharedDevicesDataToPieChartData = (sharedDevices: SharedDeviceDto[]) => {
@@ -109,6 +123,22 @@ const Dashboard = () => {
                        data={shredDeviceGroupsChartData}
                        options={optionsSharedDeviceGroups}/>
             </div>
+            <Card sx={{width: "100%", display: "flex"}}>
+                <CardHeader
+                    sx={{
+                        display: "flex",
+                        overflow: "hidden",
+                        "& .MuiCardHeader-content": {
+                            overflow: "hidden"
+                        }
+                    }}
+                    title={<div>Docker Swarm Status: <div>Host: {dockerHost}</div></div>}
+                    titleTypographyProps={{noWrap: true}}
+                    subheader={isDocker ? (<div style={{color: 'green'}}>Online</div>) : (
+                        <div style={{color: 'red'}}>Offline</div>)}
+                    subheaderTypographyProps={{noWrap: true}}
+                />
+            </Card>
         </div>
     );
 };
