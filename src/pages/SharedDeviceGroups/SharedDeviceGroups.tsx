@@ -17,6 +17,7 @@ const SharedDeviceGroups = () => {
     const [sharedDeviceGroups, setSharedDeviceGroups] = useState<SharedDeviceGroupDto[]>([]);
     const [sharedDevices, setSharedDevices] = useState<SharedDeviceDto[]>([]);
     const [devicesForAssign, setDevicesForAssign] = useState<any>([]);
+    const [selectedDevicesForAssign, setSelectedDevicesForAssign] = useState<string[]>([]);
     const [tableData, setTableData] = useState([]);
     const [searchText, setSearchText] = useState('');
     const [isLoading, setIsLoading] = useState(true);
@@ -100,6 +101,15 @@ const SharedDeviceGroups = () => {
         console.log('onCheckRowChangeHandler', event);
     }
 
+    const onSharedDeviceSelected = (evt: MouseEvent, id: string) => {
+        const index = selectedDevicesForAssign.indexOf(id);
+        if (index > -1) {
+            setSelectedDevicesForAssign(prevState => prevState.splice(index, 1));
+        } else {
+            setSelectedDevicesForAssign(prevState => [...prevState, id]);
+        }
+    }
+
     const submitDeleteHandler = (id: string) => {
         axios.delete(BASE_V1_URL + `/shared-device-groups/${id}`)
             .then(() => {
@@ -122,8 +132,14 @@ const SharedDeviceGroups = () => {
             .catch(err => NotificationManager.error(err.message));
     }
 
-    const submitAssignHandler = () => {
-        console.log('submitAssignHandler');
+    const submitAssignHandler = (id: string) => {
+        axios.put(BASE_V1_URL + `/shared-device-groups/${id}`, {...selectedDeviceGroup, devices: [...selectedDeviceGroup.devices, ...selectedDevicesForAssign]})
+            .then(res => {
+                setIsAssignDialogVisible(false);
+                NotificationManager.info('Shared devices were assigned in ' + res.data.name + ' group');
+                setSelectedDevicesForAssign([]);
+                fetchSharedDeviceGroups();
+            });
     }
 
     const newGroupNameHandler = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -151,7 +167,7 @@ const SharedDeviceGroups = () => {
         </DotActionToolbar>
     );
 
-    const columns = [
+    const sharedDeviceGroupColumns = [
         {
             id: "id",
             label: "Group ID",
@@ -167,6 +183,18 @@ const SharedDeviceGroups = () => {
         }
     ];
 
+    const sharedDevicesColumns = [
+        {
+            id: "deviceId",
+            label: "ID",
+            sortable: false
+        },
+        {
+            id: "name",
+            label: "Name"
+        }
+    ];
+
     if (isLoading) {
         return <Loader/>;
     }
@@ -179,7 +207,7 @@ const SharedDeviceGroups = () => {
                       orderBy="id"
                       maxHeight="calc(100% - 65px)"
                       toolbar={toolbar}
-                      columns={columns}/>
+                      columns={sharedDeviceGroupColumns}/>
 
             <DotDialog open={isDeleteDialogVisible}
                        onCancel={deleteButtonHandler}
@@ -203,17 +231,17 @@ const SharedDeviceGroups = () => {
 
             <DotDialog open={isAssignDialogVisible}
                        onCancel={assignButtonHandler}
-                       onSubmit={submitAssignHandler}
+                       onSubmit={() => submitAssignHandler(selectedDeviceGroup.id)}
                        title="Assign Device To The Group">
                 <DotTable data={devicesForAssign}
-                          onRowClick={onRowClick}
+                          onRowClick={onSharedDeviceSelected}
                           multiSelect={{
-                              onCheckRowChange: onCheckRowChangeHandler
+                              onCheckAllChange: onCheckRowChangeHandler
                           }}
                           order="asc"
                           orderBy="id"
                           maxHeight="100%"
-                          columns={columns}/>
+                          columns={sharedDevicesColumns}/>
             </DotDialog>
         </>
     );

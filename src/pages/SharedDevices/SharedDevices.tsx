@@ -107,7 +107,7 @@ const SharedDevices = () => {
     const toolbar = (
         <DotActionToolbar className="table-toolbar" variant="regular">
             <div className="table-title">
-                <DotTypography variant="h2">Shared Devices</DotTypography>
+                <DotTypography variant="h2">{sharedDevices.length + ' Shared Devices'}</DotTypography>
             </div>
             <div className="toolbar-filters">
                 <DotInputSelect options={statusFilterOptions}
