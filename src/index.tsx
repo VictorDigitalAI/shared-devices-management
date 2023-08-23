@@ -8,6 +8,18 @@ import {store} from './store/store';
 import {router} from './router';
 // @ts-ignore
 import {NotificationContainer} from 'react-notifications';
+import axios from 'axios';
+import {TOKEN_KEY} from './constants/constants';
+
+axios.interceptors.request.use(
+    config => {
+        config.headers['Authorization'] = `Basic ${localStorage.getItem(TOKEN_KEY)}`;
+        return config;
+    },
+    error => {
+        return Promise.reject(error);
+    }
+);
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement

@@ -8,5 +8,42 @@
   .toolbar-filters {
     flex: 1;
     display: flex;
+
+    & > * {
+      min-width: 200px;
+    }
+  }
+
+  .toolbar-search-actions {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.dot-dialog-content {
+  border-top: 1px silver solid;
+  border-bottom: 1px silver solid;
+}
+
+.info-title {
+  font-weight: 600;
+  width: 150px;
+  display: block;
+}
+
+.clouds-list {
+  margin: 0;
+  padding-left: 15px;
+}
+
+.device-dialog-info {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 10px;
+
+  & > div {
+    display: flex;
+    flex-wrap: nowrap;
   }
 }
