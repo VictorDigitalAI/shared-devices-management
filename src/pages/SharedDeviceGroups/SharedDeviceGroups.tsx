@@ -127,7 +127,7 @@ const SharedDeviceGroups = () => {
                 setIsCreateDialogVisible(false);
                 NotificationManager.info(`Devices group ${newGroupName} was created successfully.`);
                 setNewGroupName('');
-                fetchSharedDeviceGroups();
+                setTimeout(() => fetchSharedDeviceGroups(), 1000);
             })
             .catch(err => NotificationManager.error(err.message));
     }
@@ -138,7 +138,7 @@ const SharedDeviceGroups = () => {
                 setIsAssignDialogVisible(false);
                 NotificationManager.info('Shared devices were assigned in ' + res.data.name + ' group');
                 setSelectedDevicesForAssign([]);
-                fetchSharedDeviceGroups();
+                setTimeout(() => fetchSharedDeviceGroups(), 1000);
             });
     }
 
