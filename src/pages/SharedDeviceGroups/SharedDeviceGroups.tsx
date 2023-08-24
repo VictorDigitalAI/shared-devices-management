@@ -185,6 +185,10 @@ const SharedDeviceGroups = () => {
 
     const sharedDevicesColumns = [
         {
+            id: "status",
+            label: "Status"
+        },
+        {
             id: "deviceId",
             label: "ID",
             sortable: false
@@ -239,7 +243,7 @@ const SharedDeviceGroups = () => {
                               onCheckAllChange: onCheckRowChangeHandler
                           }}
                           order="asc"
-                          orderBy="id"
+                          orderBy="status"
                           maxHeight="100%"
                           columns={sharedDevicesColumns}/>
             </DotDialog>
