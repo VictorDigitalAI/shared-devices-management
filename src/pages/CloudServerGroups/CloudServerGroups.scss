@@ -1,0 +1,21 @@
+.table-toolbar {
+  display: flex;
+  justify-content: space-between;
+
+  .table-title {
+    width: 250px;
+  }
+
+  .toolbar-search-actions {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.delete-question {
+  padding: 20px 0;
+
+  & > span {
+    font-weight: 600;
+  }
+}

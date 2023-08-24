@@ -5,4 +5,5 @@ export enum ROUTES {
     SHARED_DEVICES = "/shared-devices",
     SHARED_DEVICE_GROUPS = "/shared-device-groups",
     MANGER_NOT_AVAILABLE = "/manager-not-available",
+    CLOUD_SERVER_GROUPS = "/cloud-server-groups",
 }

@@ -7,6 +7,7 @@ import Login from './pages/Login/Login';
 import Page404 from './pages/Page404/Page404';
 import {ROUTES} from './constants/routes';
 import SharedDeviceGroups from './pages/SharedDeviceGroups/SharedDeviceGroups';
+import CloudServerGroups from './pages/CloudServerGroups/CloudServerGroups';
 import ShareManagerNotAvailable from './pages/ShareManagerNotAvailable/ShareManagerNotAvailable';
 
 export const router = createBrowserRouter([
@@ -25,6 +26,10 @@ export const router = createBrowserRouter([
             {
                 path: ROUTES.SHARED_DEVICE_GROUPS,
                 element: <SharedDeviceGroups/>
+            },
+            {
+                path: ROUTES.CLOUD_SERVER_GROUPS,
+                element: <CloudServerGroups/>
             }
         ]
     },

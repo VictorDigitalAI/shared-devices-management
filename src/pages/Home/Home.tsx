@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {MANGER_INFO_KEY, TOKEN_KEY} from '../../constants/constants';
 import {removeToken} from '../../store/authentication';
 import {ROUTES} from '../../constants/routes';
+import CloudServerGroups from "../CloudServerGroups/CloudServerGroups";
 
 const Home = () => {
     const navigate = useNavigate();
@@ -32,6 +33,10 @@ const Home = () => {
         {
             title: "Shared Device Groups",
             path: ROUTES.SHARED_DEVICE_GROUPS
+        },
+        {
+            title: "Cloud Server Groups",
+            path: ROUTES.CLOUD_SERVER_GROUPS
         }
     ]
 
